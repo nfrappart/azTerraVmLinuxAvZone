@@ -4,12 +4,12 @@
 #Variable declaration for Module
 
 #The target environement for the application
-variable "VmPrefix" {
+variable "VmEnv" {
   type = string
 }
 
-#serial of the server like 10, 85, 120, 55 for Covage naming convention
-variable "CovageServerId" {
+#serial of the server like 10, 85, 120, 55 for naming convention
+variable "VmNumber" {
   type    = string
 }
 
@@ -47,11 +47,6 @@ variable "AvZone" {
   default = "1"
 }
 
-#The incremental id for Covage naming system
-#variable "VmCovageIncrement" {
-#  type = number
-#}
-
 #The Managed Disk Storage tier
 variable "VmStorageTier" {
   type    = string
@@ -61,7 +56,7 @@ variable "VmStorageTier" {
 #The VM Admin Name
 variable "VmAdminName" {
   type    = string
-  default = "root_dsi"
+  default = "admlocal"
 }
 #variable "VmAdminPassword" {
 #  type    = string

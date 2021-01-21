@@ -11,7 +11,7 @@ resource "random_password" "TerraVM-pass" {
 
 # save password in keyvault secret
 resource "azurerm_key_vault_secret" "TerraVM-secret" {
-  name         = "${var.VmPrefix}azuvsrv${format("%04d", var.CovageServerId)}l-rootdsi"
+  name         = "${var.VmEnv}lin${format("%04d", var.VmNumber)}l-${var.VmAdminName}"
   value        = random_password.TerraVM-pass.result
   key_vault_id = var.KvId
   tags = {
@@ -32,7 +32,7 @@ resource "azurerm_key_vault_secret" "TerraVM-secret" {
 
 # Create storage account for each VM Diag
 resource azurerm_storage_account "TerraVM-diag" {
-  name  =  "${var.VmPrefix}azuvsrv${format("%04d", var.CovageServerId)}ldiag"
+  name  =  "${var.VmEnv}lin${format("%04d", var.VmNumber)}ldiag"
   resource_group_name = var.RgName
   location = var.RgLocation
   account_tier = "Standard"
@@ -54,7 +54,7 @@ resource azurerm_storage_account "TerraVM-diag" {
 
 # Create 1 NIC pour each VM
 resource "azurerm_network_interface" "TerraVM-nic0" {
-  name                = "${var.VmPrefix}azuvsrv${format("%04d", var.CovageServerId)}l-nic0"
+  name                = "${var.VmEnv}lin${format("%04d", var.VmNumber)}l-nic0"
   resource_group_name = var.RgName
   location            = var.RgLocation
   #dns_servers         = var.Dns
@@ -68,8 +68,8 @@ resource "azurerm_network_interface" "TerraVM-nic0" {
 
 # Create n VM
 resource "azurerm_linux_virtual_machine" "TerraVM" {
-  name                = "${var.VmPrefix}azuvsrv${format("%04d", var.CovageServerId)}l"
-  computer_name       = "${var.VmPrefix}azuvsrv${format("%04d", var.CovageServerId)}l"
+  name                = "${var.VmEnv}lin${format("%04d", var.VmNumber)}l"
+  computer_name       = "${var.VmEnv}lin${format("%04d", var.VmNumber)}l"
   resource_group_name = var.RgName
   location            = var.RgLocation
   size                = var.VmSize
@@ -90,7 +90,7 @@ resource "azurerm_linux_virtual_machine" "TerraVM" {
   #}
 
   os_disk {
-    name                 = "${var.VmPrefix}azuvsrv${format("%04d", var.CovageServerId)}l-OsDisk"
+    name                 = "${var.VmEnv}lin${format("%04d", var.VmNumber)}l-OsDisk"
     caching              = "ReadWrite"
     storage_account_type = var.VmStorageTier#"Standard_LRS"
   }
