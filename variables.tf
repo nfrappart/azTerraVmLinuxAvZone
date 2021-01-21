@@ -58,9 +58,6 @@ variable "VmAdminName" {
   type    = string
   default = "admlocal"
 }
-#variable "VmAdminPassword" {
-#  type    = string
-#}
 
 variable "ImagePublisherName" {
   type = string
@@ -95,11 +92,6 @@ variable "EnvironmentTag" {
   default = "Poc"
 }
 
-variable "EnvironmentUsageTag" {
-  type    = string
-  default = "Poc usage only"
-}
-
 variable "OwnerTag" {
   type = string
   default = "Nate"
@@ -107,7 +99,6 @@ variable "OwnerTag" {
 
 variable "ProvisioningDateTag" {
   type = string
-  default = "today :)"
 }
 
 variable "ProvisioningModeTag" {

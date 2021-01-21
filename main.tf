@@ -16,7 +16,6 @@ resource "azurerm_key_vault_secret" "TerraVM-secret" {
   key_vault_id = var.KvId
   tags = {
     Environment       = var.EnvironmentTag
-    EnvironmentUsage  = var.EnvironmentUsageTag
     Owner             = var.OwnerTag
     ProvisioningDate  = var.ProvisioningDateTag
     ProvisioningMode  = var.ProvisioningModeTag
@@ -39,7 +38,6 @@ resource azurerm_storage_account "TerraVM-diag" {
   account_replication_type = "LRS"
   tags = {
     Environment      = var.EnvironmentTag
-    Usage            = var.EnvironmentUsageTag
     Owner            = var.OwnerTag
     ProvisioningDate = var.ProvisioningDateTag
     ProvisioningMode = var.ProvisioningModeTag
@@ -84,11 +82,6 @@ resource "azurerm_linux_virtual_machine" "TerraVM" {
     storage_account_uri  = azurerm_storage_account.TerraVM-diag.primary_blob_endpoint
   }
 
-  #admin_ssh_key {
-  #  username   = var.VmAdminName
-  #  public_key = file("../../ssh_keys/ansible/ansible-covage.com-id_rsa.pub")
-  #}
-
   os_disk {
     name                 = "${var.VmEnv}lin${format("%04d", var.VmNumber)}l-OsDisk"
     caching              = "ReadWrite"
@@ -106,7 +99,6 @@ resource "azurerm_linux_virtual_machine" "TerraVM" {
 
   tags = {
     Environment       = var.EnvironmentTag
-    Usage             = var.EnvironmentUsageTag
     Owner             = var.OwnerTag
     ProvisioningDate  = var.ProvisioningDateTag
     ProvisioningMode  = var.ProvisioningModeTag

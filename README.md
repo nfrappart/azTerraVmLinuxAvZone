@@ -30,8 +30,7 @@ module "testVM" {
   ImageOffer = "UbuntuServer"
   ImageSku = "18.04-LTS"
   SubnetId = module.sn-test-hub-eu.Id #call existing subnet id
-  ProvisioningDateTag = timestamp()
+  ProvisioningDateTag = timestamp() #required!
   EnvironmentTag = "testing"
-  EnvironmentUsageTag = "PoC"
-  }
+}
 ```
