@@ -3,7 +3,7 @@
 ############################################################
 
 locals {
-  vm_name_prefix = "${var.VmEnv}lin${format("%04d", var.VmNumber)}l"
+  vm_name_prefix = "${var.VmEnv}lin${format("%04d", var.VmNumber)}"
   ProvisioningDateTag = timestamp()
 }
 
