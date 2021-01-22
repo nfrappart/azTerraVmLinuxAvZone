@@ -30,7 +30,6 @@ module "testVM" {
   ImageOffer = "UbuntuServer"
   ImageSku = "18.04-LTS"
   SubnetId = module.sn-test-hub-eu.Id #call existing subnet id
-  ProvisioningDateTag = timestamp() #required!
   EnvironmentTag = "testing"
 }
 ```
@@ -64,7 +63,6 @@ module "testVM-pack" {
   ImageOffer = "UbuntuServer"
   ImageSku = "18.04-LTS"
   SubnetId = module.sn-test-hub-eu.Id #call existing subnet id
-  ProvisioningDateTag = timestamp() #required!
   EnvironmentTag = "testing"
 }
 ```

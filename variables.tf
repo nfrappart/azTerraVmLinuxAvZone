@@ -97,9 +97,9 @@ variable "OwnerTag" {
   default = "Nate"
 }
 
-variable "ProvisioningDateTag" {
-  type = string
-}
+#variable "ProvisioningDateTag" {
+#  type = string
+#}
 
 variable "ProvisioningModeTag" {
   type = string

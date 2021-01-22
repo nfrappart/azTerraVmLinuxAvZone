@@ -4,6 +4,7 @@
 
 locals {
   vm_name_prefix = "${var.VmEnv}lin${format("%04d", var.VmNumber)}l"
+  ProvisioningDateTag = timestamp()
 }
 
 # Create Password for vm
@@ -15,13 +16,13 @@ resource "random_password" "TerraVM-pass" {
 
 # save password in keyvault secret
 resource "azurerm_key_vault_secret" "TerraVM-secret" {
-  name         = "${locals.vm_name_prefix}-${var.VmAdminName}"
+  name         = "${local.vm_name_prefix}-${var.VmAdminName}"
   value        = random_password.TerraVM-pass.result
   key_vault_id = var.KvId
   tags = {
     Environment       = var.EnvironmentTag
     Owner             = var.OwnerTag
-    ProvisioningDate  = var.ProvisioningDateTag
+    ProvisioningDate  = local.ProvisioningDateTag
     ProvisioningMode  = var.ProvisioningModeTag
     Username          = var.VmAdminName
   }
@@ -35,7 +36,7 @@ resource "azurerm_key_vault_secret" "TerraVM-secret" {
 
 # Create storage account for each VM Diag
 resource azurerm_storage_account "TerraVM-diag" {
-  name  =  "${locals.vm_name_prefix}diag"
+  name  =  "${local.vm_name_prefix}diag"
   resource_group_name = var.RgName
   location = var.RgLocation
   account_tier = "Standard"
@@ -43,7 +44,7 @@ resource azurerm_storage_account "TerraVM-diag" {
   tags = {
     Environment      = var.EnvironmentTag
     Owner            = var.OwnerTag
-    ProvisioningDate = var.ProvisioningDateTag
+    ProvisioningDate = local.ProvisioningDateTag
     ProvisioningMode = var.ProvisioningModeTag
     #BackupRetention  = var.BackupRetention
   }
@@ -56,7 +57,7 @@ resource azurerm_storage_account "TerraVM-diag" {
 
 # Create 1 NIC pour each VM
 resource "azurerm_network_interface" "TerraVM-nic0" {
-  name                = "${locals.vm_name_prefix}-nic0"
+  name                = "${local.vm_name_prefix}-nic0"
   resource_group_name = var.RgName
   location            = var.RgLocation
   #dns_servers         = var.Dns
@@ -70,8 +71,8 @@ resource "azurerm_network_interface" "TerraVM-nic0" {
 
 # Create n VM
 resource "azurerm_linux_virtual_machine" "TerraVM" {
-  name                = "${locals.vm_name_prefix}"
-  computer_name       = "${locals.vm_name_prefix}"
+  name                = local.vm_name_prefix
+  computer_name       = local.vm_name_prefix
   resource_group_name = var.RgName
   location            = var.RgLocation
   size                = var.VmSize
@@ -87,7 +88,7 @@ resource "azurerm_linux_virtual_machine" "TerraVM" {
   }
 
   os_disk {
-    name                 = "${locals.vm_name_prefix}-OsDisk"
+    name                 = "${local.vm_name_prefix}-OsDisk"
     caching              = "ReadWrite"
     storage_account_type = var.VmStorageTier#"Standard_LRS"
   }
@@ -104,7 +105,7 @@ resource "azurerm_linux_virtual_machine" "TerraVM" {
   tags = {
     Environment       = var.EnvironmentTag
     Owner             = var.OwnerTag
-    ProvisioningDate  = var.ProvisioningDateTag
+    ProvisioningDate  = local.ProvisioningDateTag
     ProvisioningMode  = var.ProvisioningModeTag
     BackupRetention   = var.BackupRetention
   }
