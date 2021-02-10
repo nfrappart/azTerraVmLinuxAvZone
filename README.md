@@ -31,6 +31,7 @@ module "testVM" {
   ImageSku = "18.04-LTS"
   SubnetId = module.sn-test-hub-eu.Id #call existing subnet id
   EnvironmentTag = "testing"
+  UsageTag = "Application Top Notch"
 }
 ```
 

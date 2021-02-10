@@ -29,12 +29,6 @@ variable "KvId" {
   type = string
 }
 
-/*
-#DNS Server list
-variable "Dns" {
-  type = list
-}
-*/
 #The VM Size (corresponding to azure service class like D2s_v3, D4s_v3, DS1_v2, DS2_v2 etc)
 variable "VmSize" {
   type    = string
@@ -74,17 +68,6 @@ variable "ImageSku" {
   default = "18.04-LTS"
 }
 
-#variable "PublicSSHKey" {
-#  type = string
-#}
-
-#Variable defining the PAssword activation
-
-#variable "PasswordDisabled" {
-#  type    = string
-#  default = "true"
-#}
-
 #Tag info
 
 variable "EnvironmentTag" {
@@ -92,14 +75,15 @@ variable "EnvironmentTag" {
   default = "Poc"
 }
 
+variable "UsageTag" {
+  type = string
+  default = "PoC usage only"
+}
+
 variable "OwnerTag" {
   type = string
   default = "Nate"
 }
-
-#variable "ProvisioningDateTag" {
-#  type = string
-#}
 
 variable "ProvisioningModeTag" {
   type = string
