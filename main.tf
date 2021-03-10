@@ -116,6 +116,7 @@ resource "azurerm_linux_virtual_machine" "TerraVM" {
   lifecycle {
     ignore_changes = [
       tags["ProvisioningDate"],
+      admin_password,
     ]
   }
 }
