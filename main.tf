@@ -116,7 +116,15 @@ resource "azurerm_linux_virtual_machine" "TerraVM" {
   lifecycle {
     ignore_changes = [
       tags["ProvisioningDate"],
-      admin_password,
+      #admin_password,
     ]
   }
+}
+
+resource "azurerm_virtual_machine_extension" "azuread-auth" {
+  name                 = "AADloginForLinux"
+  virtual_machine_id   = azurerm_linux_virtual_machine.TerraVM.id
+  publisher            = "Microsoft.Azure.ActiveDirectory.LinuxSSH"
+  type                 = "AADLoginForLinux"
+  type_handler_version = "1.0"
 }
