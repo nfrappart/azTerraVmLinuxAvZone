@@ -47,6 +47,11 @@ variable "VmStorageTier" {
   default = "Premium_LRS"
 }
 
+variable "OsDiskSize" {
+  type = string
+  default = "64"
+}
+
 #The VM Admin Name
 variable "VmAdminName" {
   type    = string
@@ -67,7 +72,10 @@ variable "ImageSku" {
   type = string
   default = "18.04-LTS"
 }
-
+variable "ImageVersion" {
+  type = string
+  default = "latest"
+}
 #Tag info
 
 variable "EnvironmentTag" {

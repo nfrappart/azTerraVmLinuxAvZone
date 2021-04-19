@@ -93,13 +93,14 @@ resource "azurerm_linux_virtual_machine" "TerraVM" {
     name                 = "${local.vm_name_prefix}-OsDisk"
     caching              = "ReadWrite"
     storage_account_type = var.VmStorageTier#"Standard_LRS"
+    disk_size_gb         = var.OsDiskSize
   }
 
   source_image_reference {
     publisher = var.ImagePublisherName
     offer     = var.ImageOffer
     sku       = var.ImageSku
-    version   = "latest"
+    version   = var.ImageVersion#"latest"
   }
 
   zone = var.AvZone
