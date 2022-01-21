@@ -29,6 +29,14 @@ variable "KvId" {
   type = string
 }
 
+variable "VmDiag" {
+  type = string
+}
+
+variable "RgVmDiag" {
+  type = string
+}
+
 #The VM Size (corresponding to azure service class like D2s_v3, D4s_v3, DS1_v2, DS2_v2 etc)
 variable "VmSize" {
   type    = string

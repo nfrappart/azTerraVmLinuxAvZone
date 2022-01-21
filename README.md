@@ -12,15 +12,16 @@ It will:
 - existing Keyvault
 - existing Subnet
 - existing VNet
+- existing Storage account
 
 # Usage Example :
 
 ```hcl
 module "testVM" {
-  source = "github.com/nfrappart/azTerraVmLinuxAvZone?ref=v1.0.2"
-  RgName = module.rg-core-eu.Name #call existing RG name
-  RgLocation = module.rg-core-eu.Location #call existing RG location
-  VmEnv = "test"
+  source = "github.com/nfrappart/azTerraVmLinuxAvZone?ref=v1.0.8"
+  RgName = data.azurerm_resource_group.myRg.name #call existing RG name
+  RgLocation = data.azurerm_resource_group.myRg.location #call existing RG location
+  VmEnv = "staging"
   VmNumber = "100" # /!\ Important - list the server IDs to provision. This parameter is used for naming convention
   VmSize = "Standard_B1ms" #(choose the right size for the need)
   #AvZone = "1" #(optional, Availability Zone default value is "1")
@@ -29,7 +30,9 @@ module "testVM" {
   ImagePublisherName = "Canonical"
   ImageOffer = "UbuntuServer"
   ImageSku = "18.04-LTS"
-  SubnetId = module.sn-test-hub-eu.Id #call existing subnet id
+  SubnetId = data.azurerm_subnet.mySubnet.id #call existing subnet id
+  RgVmDiag = "someRg" #existing storage account RG name
+  VmDiag = "mydiags" #existing storage account nam
   EnvironmentTag = "testing"
   UsageTag = "Application Top Notch"
 }
@@ -51,9 +54,9 @@ variable "VmNumber-list" {
 
 module "testVM-pack" {
   for_each = toset(var.VmNumber-list) #for_each require a set or a map, list are not accepted
-  source = "github.com/nfrappart/azTerraVmLinuxAvZone?ref=v1.0.2"
-  RgName = module.rg-core-eu.Name #call existing RG name
-  RgLocation = module.rg-core-eu.Location #call existing RG location
+  source = "github.com/nfrappart/azTerraVmLinuxAvZone?ref=v1.0.8"
+  RgName = data.azurerm_resource_group.myRg.name #call existing RG name
+  RgLocation = data.azurerm_resource_group.myRg.location #call existing RG location
   VmEnv = "test"
   VmNumber = each.value # /!\ Important - list the server IDs to provision. This parameter is used for naming convention
   VmSize = "Standard_B1ms" #(choose the right size for the need)
@@ -63,7 +66,9 @@ module "testVM-pack" {
   ImagePublisherName = "Canonical"
   ImageOffer = "UbuntuServer"
   ImageSku = "18.04-LTS"
-  SubnetId = module.sn-test-hub-eu.Id #call existing subnet id
+  SubnetId = data.azurerm_subnet.mySubnet.id #call existing subnet id
+  RgVmDiag = "someRg" #existing storage account RG name
+  VmDiag = "mydiags" #existing storage account nam
   EnvironmentTag = "testing"
 }
 ```

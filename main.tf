@@ -39,26 +39,9 @@ resource "azurerm_key_vault_secret" "TerraVM-secret" {
   }
 }
 
-# Create storage account for each VM Diag
-resource azurerm_storage_account "TerraVM-diag" {
-  name  =  "${local.vm_name_prefix}diag"
-  resource_group_name = var.RgName
-  location = var.RgLocation
-  account_tier = "Standard"
-  account_replication_type = "LRS"
-  tags = {
-    Environment      = var.EnvironmentTag
-    Usage             = var.UsageTag
-    Owner            = var.OwnerTag
-    ProvisioningDate = local.ProvisioningDateTag
-    ProvisioningMode = var.ProvisioningModeTag
-    #BackupRetention  = var.BackupRetention
-  }
-  lifecycle {
-    ignore_changes = [
-      tags["ProvisioningDate"],
-    ]
-  }
+data "azurerm_storage_account" "TerraVM-diag" {
+  name = var.VmDiag
+  resource_group_name = var.RgVmDiag
 }
 
 # Create 1 NIC pour each VM
@@ -90,7 +73,7 @@ resource "azurerm_linux_virtual_machine" "TerraVM" {
     azurerm_network_interface.TerraVM-nic0.id,
   ]
   boot_diagnostics {
-    storage_account_uri  = azurerm_storage_account.TerraVM-diag.primary_blob_endpoint
+    storage_account_uri  = data.azurerm_storage_account.TerraVM-diag.primary_blob_endpoint
   }
 
   os_disk {
